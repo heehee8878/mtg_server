@@ -1,0 +1,8 @@
+.env
+
+.vscode/
+build/
+
+*.pdb
+*.exe
+*.obj
