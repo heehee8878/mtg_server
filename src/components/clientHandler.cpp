@@ -27,7 +27,11 @@ int clientHandler(ClientData clientData, ClientList* clientList) {
         if (clientData.recvMessage(&message) == -1) break;
         cout << "> [" << username << "," << clientData.clientID << "] " << ": " << message << endl;
         string response = "["+username+"] " + message;
-        if (clientList->sendAll(response) == -1) break;
+        
+        // Broadcast to all **other** clients
+        for(auto& client : *clientList) {
+            if(client.clientID != clientData.clientID) client.sendMessage(response);
+        }
     }
 
     cout << "> Client ID " << clientData.clientID << " disconnected." << endl;
