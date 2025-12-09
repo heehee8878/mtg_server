@@ -26,11 +26,9 @@ void acceptClientRoop(SOCKET *serverSock, ClientList* clientList) {
         }
 
         // Store client data in clientList BEFORE starting thread
-        int clientID = static_cast<int>(clientList->size()) + 1;
-        ClientData newClient(clientID, clientSocket);
-        clientList->addClient(newClient);
+        ClientData newClient = clientList->createClient(clientSocket);
 
-        cout << "> Client Handler Thread Started for Client ID: " << clientID << endl;
+        cout << "> Client Handler Thread Started for Client ID: " << newClient.clientID << endl;
         cout << "> Total Connected Clients: " << clientList->size() << endl;
 
         // Start client handler thread - pass by value (copy is safe)

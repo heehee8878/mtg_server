@@ -14,23 +14,39 @@ class ClientList
 private:
     vector<ClientData> clients;
     mutex mtx;
+    int nextClientID = 1;
 public:
     operator vector<ClientData>&() {
         return clients;
     }
 
-    void addClient(const ClientData& client) {
+    // Can rejected duplicate clientID
+    int addClient(const ClientData& client) {
         lock_guard<mutex> lock(mtx);
+        for(auto& existingClient : clients) {
+            if(existingClient.clientID == client.clientID) return -1;
+        }
         clients.push_back(client);
+        return 0;
     }
 
-    void removeClientByID(int clientID) {
+    ClientData createClient(SOCKET clientSocket) {
         lock_guard<mutex> lock(mtx);
-        clients.erase(
-            remove_if(clients.begin(), clients.end(),
-                      [&](const ClientData& cd) { return cd.clientID == clientID; }),
-            clients.end()
-        );
+        int clientID = nextClientID++;
+        ClientData newClient(clientID, clientSocket);
+        clients.push_back(newClient);
+        return newClient;
+    }
+
+    int removeClientByID(int clientID) {
+        lock_guard<mutex> lock(mtx);
+        for (auto it = clients.begin(); it != clients.end(); ++it) {
+            if (it->clientID == clientID) {
+                clients.erase(it);
+                return 0;
+            }
+        }
+        return -1;
     }
 
     int sendAll(const string& message) {

@@ -14,13 +14,11 @@ using namespace std;
 const u_short SERVER_PORT = 9999;
 
 int main(int argc, char *argv[]) {
-    #pragma region WSASetup
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         cerr << "WSA Setup has Error." << endl;
         return -1;
     }
-    #pragma endregion
 
     cout << "> Starting Server..." << endl;
 
@@ -28,6 +26,7 @@ int main(int argc, char *argv[]) {
     ClientList clientSockets;
 
     try {
+        // Initialize Socket
         if (initializeSocket(&serverSocket, IPPROTO_TCP) == -1)         throw runtime_error("Can't Create Socket.");
         if (bindingSocket(&serverSocket, SERVER_PORT) == SOCKET_ERROR)  throw runtime_error("Can't Binding Socket.");
         if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR)            throw runtime_error("Can't Listen a Socket.");
