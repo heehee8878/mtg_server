@@ -16,10 +16,6 @@ private:
     mutex mtx;
     int nextClientID = 1;
 public:
-    operator vector<ClientData>&() {
-        return clients;
-    }
-
     // Can rejected duplicate clientID
     int addClient(const ClientData& client) {
         lock_guard<mutex> lock(mtx);
