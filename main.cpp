@@ -5,9 +5,9 @@
 
 using namespace std;
 
-#include "src/clientList.cpp"
-#include "src/socketInitializer.cpp"
-#include "src/acceptClientRoop.cpp"
+#include "src/classes/clientList.cpp"
+#include "src/utils/socketInitializer.cpp"
+#include "src/components/acceptClientRoop.cpp"
 
 #pragma comment (lib, "ws2_32.lib")
 

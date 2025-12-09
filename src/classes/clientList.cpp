@@ -33,6 +33,17 @@ public:
         );
     }
 
+    int sendAll(const string& message) {
+        lock_guard<mutex> lock(mtx);
+        for (auto& client : clients) {
+            if (client.sendMessage(message) == -1) {
+                cerr << "Error sending message to Client ID: " << client.clientID << endl;
+                return -1;
+            }
+        }
+        return 0;
+    }
+
     size_t size() {
         lock_guard<mutex> lock(mtx);
         return clients.size();

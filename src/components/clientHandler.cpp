@@ -5,7 +5,7 @@
 #include <vector>
 #include <WinSock2.h>
 
-#include "clientList.cpp"
+#include "src/classes/clientList.cpp"
 
 using namespace std;
 
@@ -25,7 +25,9 @@ int clientHandler(ClientData clientData, ClientList* clientList) {
     while (true) {
         string message;
         if (clientData.recvMessage(&message) == -1) break;
-        cout << "> Received from Client ID " << clientData.clientID << ": " << message << endl;
+        cout << "> [" << username << "," << clientData.clientID << "] " << ": " << message << endl;
+        string response = "["+username+"] " + message;
+        if (clientList->sendAll(response) == -1) break;
     }
 
     cout << "> Client ID " << clientData.clientID << " disconnected." << endl;

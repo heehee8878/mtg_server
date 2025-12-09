@@ -36,6 +36,12 @@ public:
         *message = string(buffer.data());
         return 0;
     }
+
+    int sendMessage(const string& message) {
+        int bytesSent = send(clientSocket, message.c_str(), message.size(), 0);
+        if (bytesSent == SOCKET_ERROR) return -1;
+        return 0;
+    }
 };
 
 #endif

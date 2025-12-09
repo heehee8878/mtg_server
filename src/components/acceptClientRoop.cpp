@@ -6,8 +6,8 @@
 #include <thread>
 #include <vector>
 
-#include "clientList.cpp"
-#include "clientHandler.cpp"
+#include "src/classes/clientList.cpp"
+#include "src/components/clientHandler.cpp"
 
 using namespace std;
 
@@ -30,12 +30,12 @@ void acceptClientRoop(SOCKET *serverSock, ClientList* clientList) {
         ClientData newClient(clientID, clientSocket);
         clientList->addClient(newClient);
 
+        cout << "> Client Handler Thread Started for Client ID: " << clientID << endl;
+        cout << "> Total Connected Clients: " << clientList->size() << endl;
+
         // Start client handler thread - pass by value (copy is safe)
         thread clientHandlerThread(clientHandler, newClient, clientList);
         clientHandlerThread.detach();
-
-        cout << "> Client Handler Thread Started for Client ID: " << clientID << endl;
-        cout << "> Total Connected Clients: " << clientList->size() << endl;
     }
 }
 
