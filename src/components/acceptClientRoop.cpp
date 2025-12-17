@@ -31,7 +31,7 @@ void acceptClientRoop(SOCKET *serverSock, ClientList* clientList) {
         cout << "> Client Handler Thread Started for Client ID: " << newClient.clientID << endl;
         cout << "> Total Connected Clients: " << clientList->size() << endl;
 
-        // Start client handler thread - pass by value (copy is safe)
+        // Start client handler thread
         thread clientHandlerThread(clientHandler, newClient, clientList);
         clientHandlerThread.detach();
     }
